@@ -1,0 +1,2 @@
+class ScrabbleController
+end
