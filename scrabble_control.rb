@@ -41,13 +41,13 @@ class ScrabbleController
                 if @model.letter_scores.has_key?(char)
                 # increment score with value of key
                 @score += @model.letter_scores[char]
-                else
+                elsex
                 # score does not change 
                 @score += 0
                 end
             end
         return @score
-    end
+    end 
 
     # checks whether the user inputted word is a valid word (in dictionary)
     def dictionary(new_word)
