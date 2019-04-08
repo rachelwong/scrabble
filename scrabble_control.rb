@@ -9,16 +9,15 @@ class ScrabbleController
     def initialize
         @screen = ScrabbleView.new
         @model = ScrabbleModel.new
-        @score = 0
-        @dictionary = Dictionary.from_file('words.txt')
+        @score = 0 # Defaults to zero
     end
 
+    # Main run-around
     def run
         @screen.welcome
         new_word = ""
         while new_word != "Q"
             new_word = @screen.get_word
-            word_array = new_word.split('')
             if dictionary(new_word) == true
                 @score = calculate_score(new_word)
                 @screen.accept(new_word)
@@ -32,25 +31,35 @@ class ScrabbleController
         @screen.goodbye
     end
 
+    # Calculates the score for user inputted word
     def calculate_score(new_word)
-        # break the new_word into an array of letters
-        # for each letter 
-        # if it matches a key in @model
+        word_array = word.split('')
+            for char in word_array do
+                # if character is a key in hash
+                if @model.letter_scores.has_key?(char)
+                # increment score with value of key
+                @score += @model.letter_scores[char]
+                else
+                # score does not change 
+                @score += 0
+                end
+            end
+        return @score
     end
 
+    # checks whether the user inputted word is a valid word (in dictionary)
     def dictionary(new_word)
         # is the word in the dictionary
-        if @dictionary.exists?('#{new_word}')
+        if @model.dictionary.exists?(new_word)
             return true
         else # if the word is not in the dictionary
             return false
         end
     end
-
+    
+    # draw seven random letters from @model.get_letters
     def scramble
-        # draw seven random letters from @model.get_letters
+        (0...7).map { (65 + rand(26)).chr }
+        return letter_array
     end
 end
-
-
-# https://github.com/dwyl/english-words
