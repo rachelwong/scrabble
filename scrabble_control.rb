@@ -67,6 +67,6 @@ class ScrabbleController
 
     # randomly generate the first word for the game
     def first_word
-        @model.dictionary
+        return RandomWord.nouns.next
     end
 end
