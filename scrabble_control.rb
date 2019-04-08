@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'ruby-dictionary'
+require 'random-word'
+
 require_relative 'scrabble_view'
 require_relative 'scrabble_model'
 
@@ -61,5 +63,10 @@ class ScrabbleController
     def scramble
         (0...7).map { (65 + rand(26)).chr }
         return letter_array
+    end
+
+    # randomly generate the first word for the game
+    def first_word
+        @model.dictionary
     end
 end
