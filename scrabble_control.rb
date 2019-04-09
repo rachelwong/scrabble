@@ -17,10 +17,15 @@ class ScrabbleController
     # Main run-around
     def run
         @screen.welcome
-        new_word = ""
+        first_word = randomizer() # get random first word
+        @screen.accept(first_word) # display the first word 
+
+        letter_array = scramble() # draw random 7 letters
+        @screen.show_scramble(letter_array) # display random 7 letters
+        # while the user input is not q
         while new_word != "Q"
             new_word = @screen.get_word
-            if dictionary(new_word) == true
+            if dictionary(new_word) == true && use_previous(first_word, new_word) == true
                 @score = calculate_score(new_word)
                 @screen.accept(new_word)
                 @screen.word_score(@score, new_word)
@@ -66,7 +71,26 @@ class ScrabbleController
     end
 
     # randomly generate the first word for the game
-    def first_word
+    def randomizer
         return RandomWord.nouns.next
+    end
+
+    # check if the new_word uses a letter from the first_word
+    def use_previous(first_word, new_word)
+        first_array = first_word.chars
+        new_array = new_word.chars
+        index = 0 
+        for char in first_array do
+            while index < new_array.length
+                if char != new_array[index]
+                    index += 1
+                elsif char == new_array[index]
+                    return true
+                else
+                    index +=1
+                end
+                return false
+            end
+        end
     end
 end

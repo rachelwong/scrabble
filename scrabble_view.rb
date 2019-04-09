@@ -53,4 +53,16 @@ class ScrabbleView
         puts 
         puts "Your inputted word must take a letter from the previous word"
     end
+
+    def show_scramble(letter_array)
+        puts " --------------------- "
+        puts "   Your letters are "
+        puts
+        for char in letter_array do
+            print "#{char.to_s.upcase} "
+        end
+        puts
+        puts
+        puts " --------------------- "
+    end
 end
