@@ -1,5 +1,6 @@
 class ScrabbleModel
-  attr_reader :letter_scores :dictionary
+  attr_reader :letter_scores
+  attr_reader :dictionary
   def initialize
     @letter_scores = {  "A"=>1, "B"=>3, "C"=>3, "D"=>2,
       "E"=>1, "F"=>4, "G"=>2, "H"=>4,

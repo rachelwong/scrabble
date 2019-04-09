@@ -22,16 +22,27 @@ class ScrabbleController
 
         letter_array = scramble() # draw random 7 letters
         @screen.show_scramble(letter_array) # display random 7 letters
-        # while the user input is not q
+
+        new_word = ""
         while new_word != "Q"
+            @screen.ask_word
             new_word = @screen.get_word
+            # if word is in dictionary AND word uses a letter from the previous word 
             if dictionary(new_word) == true && use_previous(first_word, new_word) == true
+                p "Correct word & Use_previous is TRUE "
+                p "Dictionary check is #{dictionary(new_word)}"
+                p "Use previous check is #{use_previous(first_word, new_word)}"
                 @score = calculate_score(new_word)
                 @screen.accept(new_word)
                 @screen.word_score(@score, new_word)
-            else
-                @screen.deny(new_word)
-                @screen.word_score(@score, new_word)
+            # if word is in dictionary AND word does NOT use a letter from previous word
+            elsif dictionary(new_word) == true && use_previous(first_word, new_word) == false
+                p "Dictionary check is #{dictionary(new_word)}"
+                p "Use previous check is #{use_previous(first_word, new_word)}"
+                @screen.error(new_word)
+            elsif dictionary(new_word) == false
+                p "Incorrect word"
+                @screen.error(new_word)
             end
         end
         @screen.scoreboard(@score)
@@ -40,13 +51,13 @@ class ScrabbleController
 
     # Calculates the score for user inputted word
     def calculate_score(new_word)
-        word_array = word.split('')
+        word_array = new_word.split('')
             for char in word_array do
                 # if character is a key in hash
                 if @model.letter_scores.has_key?(char)
                 # increment score with value of key
                 @score += @model.letter_scores[char]
-                elsex
+                else
                 # score does not change 
                 @score += 0
                 end
@@ -66,7 +77,7 @@ class ScrabbleController
     
     # draw seven random letters from @model.get_letters
     def scramble
-        (0...7).map { (65 + rand(26)).chr }
+        letter_array = (0...7).map { (65 + rand(26)).chr }
         return letter_array
     end
 
@@ -80,17 +91,14 @@ class ScrabbleController
         first_array = first_word.chars
         new_array = new_word.chars
         index = 0 
-        for char in first_array do
-            while index < new_array.length
-                if char != new_array[index]
-                    index += 1
-                elsif char == new_array[index]
-                    return true
-                else
-                    index +=1
-                end
-                return false
+    
+        while index < new_array.length
+            if first_array.include? (new_array[index])
+                return true
+            else
+                index += 1
             end
+            return false
         end
     end
 end

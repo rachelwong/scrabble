@@ -22,8 +22,11 @@ class ScrabbleView
 
     # accept your incoming word
     def accept(new_word)
+        system("clear")
         puts
-        puts "The word to challenge is now #{new_word}."
+        puts "The word to challenge is now"
+        puts
+        puts "      #{new_word.upcase}"
         gets
     end
 
@@ -35,11 +38,15 @@ class ScrabbleView
     end
 
     # ask for a word
-    def get_word
+    def ask_word
         puts 
-        puts "Please enter a word using a letter from \n the previous word and letters from your stack."
+        puts "Please enter a word using any letter from\nthe previous word and letters from your stack."
         puts
-        new_word = gets.chomp.upcase
+    end
+
+    def get_word
+        new_word = gets.strip.upcase
+        return new_word
     end
 
     # score for the word
@@ -50,18 +57,17 @@ class ScrabbleView
     end
 
     def error(new_word)
-        puts 
+        puts "#{new_word} is not acceptable."
         puts "Your inputted word must take a letter from the previous word"
     end
 
     def show_scramble(letter_array)
         puts " --------------------- "
-        puts "   Your letters are "
+        puts "  You drew a stack of 7 letters: "
         puts
         for char in letter_array do
             print "#{char.to_s.upcase} "
         end
-        puts
         puts
         puts " --------------------- "
     end
